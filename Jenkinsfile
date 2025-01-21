@@ -7,7 +7,7 @@ node {
     }
     stage("Test"){
         docker.image('qnib/pytest').withRun("-v ${WORKSPACE}:/app"){ c -> 
-            sh 'py.test --verbose --junit-xml /app/test-reports/results.xml sources/test_calc.py'
+            sh 'py.test --verbose --junit-xml /app/test-reports/results.xml /app/sources/test_calc.py'
         }
         junit 'test-reports/results.xml'
     }
