@@ -1,7 +1,7 @@
 node {
     checkout scm
     stage("Build"){
-        docker.image('python:2-alpine').withRun("-v .:/app"){ c -> 
+        docker.image('python:2.7').withRun("-v .:/app"){ c -> 
             sh 'python -m py_compile /app/sources/add2vals.py /app/sources/calc.py'
         }
     }
