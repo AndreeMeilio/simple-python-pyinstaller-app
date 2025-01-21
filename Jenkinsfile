@@ -1,8 +1,8 @@
 node {
     checkout scm
     stage("Build"){
-        docker.image('python:2-alpine').inside("-v ${env.WORKSPACE}:${env.WORKSPACE} -w ${env.WORKSPACE}"){ 
-            sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+        docker.image('python:2-alpine').inside("-v ${env.WORKSPACE}:${env.WORKSPACE} -w ${env.WORKSPACE}"){
+            sh '/usr/bin/python -m py_compile sources/add2vals.py sources/calc.py'
         }
     }
     stage("Test"){
