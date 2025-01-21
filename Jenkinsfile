@@ -1,14 +1,30 @@
-node {
-    checkout scm
-    stage("Build"){
-        docker.image('python:3').withRun("-v .:/app"){ c -> 
-            sh 'python -m py_compile /app/sources/add2vals.py /app/sources/calc.py'
+pipeline {
+    agent none
+    stages {
+        stage('Build') {
+            agent {
+                docker {
+                    image 'python:2-alpine'
+                }
+            }
+            steps {
+                sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+            }
         }
-    }
-    stage("Test"){
-        docker.image('qnib/pytest').withRun("-v .:/app"){ c -> 
-            sh 'py.test --verbose --junit-xml /app/test-reports/results.xml /app/sources/test_calc.py'
+        stage('Test') {
+            agent {
+                docker {
+                    image 'qnib/pytest'
+                }
+            }
+            steps {
+                sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+            }
+            post {
+                always {
+                    junit 'test-reports/results.xml'
+                }
+            }
         }
-        junit 'test-reports/results.xml'
     }
 }
