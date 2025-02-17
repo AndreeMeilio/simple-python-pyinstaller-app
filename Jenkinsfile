@@ -35,7 +35,7 @@ pipeline {
             agent {
                 docker {
                     image 'pschmitt/pyinstaller:2.7'
-                    // args '--entrypoint=""'
+                    args '--entrypoint=""'
                 }
             }
             steps {
