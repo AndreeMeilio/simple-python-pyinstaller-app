@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy'){
             agent {
                 docker {
-                    image 'pschmitt/pyinstaller:2.7'
+                    image 'pschmitt/pyinstaller:3.9'
                     args '--entrypoint=""'
                 }
             }
