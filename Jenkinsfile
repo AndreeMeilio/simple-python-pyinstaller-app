@@ -34,12 +34,13 @@ pipeline {
         stage('Deploy'){
             agent {
                 docker {
-                    image 'cdrx/pyinstaller-linux:python2'
-                    args '--entrypoint=""'
+                    image 'pschmitt/pyinstaller:2.7'
+                    // args '--entrypoint=""'
                 }
             }
             steps {
-                sh 'export PATH=$PATH:/root/.pyenv/shims'
+                sh 'whoami'
+                sh 'which pyinstaller'
                 sh 'pyinstaller --onefile add2vals.py'
             }
             post {
