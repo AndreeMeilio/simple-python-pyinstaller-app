@@ -26,5 +26,26 @@ pipeline {
                 }
             }
         }
+        stage('Manual Approval Stage') {
+            input message: "Lanjutkan ke tahap Deploy?"
+        }
+        stage('Deploy'){
+            agent {
+                docker {
+                    image 'cdrx/pyinstaller-linux:python2'
+                }
+            }
+            steps {
+                sh 'pyinstaller --onefile add2vals.py'
+            }
+            post {
+                always {
+                    sh 'sleep 1m'
+                }
+                success {
+                    archiveArtifacts 'dist/add2vals'
+                }
+            }
+        }
     }
 }
