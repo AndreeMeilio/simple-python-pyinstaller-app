@@ -39,8 +39,6 @@ pipeline {
                 }
             }
             steps {
-                sh 'whoami'
-                sh 'which pyinstaller'
                 sh 'pyinstaller --onefile add2vals.py'
             }
             post {
