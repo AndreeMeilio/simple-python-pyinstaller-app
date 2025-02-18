@@ -47,11 +47,26 @@ pipeline {
                 sh 'pyinstaller --onefile sources/add2vals.py'
             }
             post {
-                always {
-                    sh 'sleep 1m'
-                }
                 success {
                     archiveArtifacts 'dist/add2vals'
+                }
+            }
+        }
+        stage('Upload Artifact To EC2'){
+            agent any
+            environment {
+                SSH_KEY = '~/Documents/others/idcampuser'
+                USER_NAME = 'idcampuser'
+                IP_AWS = '18.136.206.1'
+            }
+            steps {
+                sh """
+                    scp -i ${SSH_KEY} dist/add2vals ${USER_NAME}@${IP_AWS}:/home/idcampuser/add2vals
+                """
+            }
+            post {
+                always {
+                    sh 'sleep 1m'
                 }
             }
         }
