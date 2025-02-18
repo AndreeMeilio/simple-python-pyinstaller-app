@@ -1,5 +1,10 @@
 pipeline {
     agent none
+    environment {
+        AWS_IP = '18.136.206.1'
+        SSH_KEY = '/home/andreemeilioc/Documents/others/idcampuser'
+        USER_NAME = 'idcampuser'
+    }
     stages {
         stage('Build') {
             agent {
@@ -40,6 +45,9 @@ pipeline {
             }
             steps {
                 sh 'pyinstaller --onefile sources/add2vals.py'
+                sh """
+                    scp -i ${SSH_KEY} dist/add2vals ${USER_NAME}@${AWS_IP}:/home/${USER_NAME}add2vals
+                """
             }
             post {
                 always {
