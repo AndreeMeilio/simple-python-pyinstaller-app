@@ -46,7 +46,7 @@ pipeline {
             steps {
                 sh 'pyinstaller --onefile sources/add2vals.py'
                 sh """
-                    scp -i ${SSH_KEY} dist/add2vals ${USER_NAME}@${AWS_IP}:/home/${USER_NAME}add2vals
+                    sudo -u jenkins scp -i ${SSH_KEY} dist/add2vals ${USER_NAME}@${AWS_IP}:/home/${USER_NAME}add2vals
                 """
             }
             post {
